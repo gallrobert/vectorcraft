@@ -35,4 +35,6 @@ jobs:
       # VM's 12 GB when two compile at once: the build was killed (exit 137) every night with
       # four jobs and again with two. One rustc at a time; it still uses every core.
       cargo-build-extra-args: "-j 1"
-      cargo-test-extra-args: "-j 1"
+      # The engine test rustc itself exceeded guest memory even with one job.
+      # Lower optimization for this test crate only; keep all tests enabled.
+      cargo-test-extra-args: '-j 1 --config profile.dev.package.vectorcraft-engine.opt-level=0 --config profile.dev.package.vectorcraft-engine.codegen-units=256'
